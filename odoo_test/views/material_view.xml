@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <menuitem id="keda_menu_root" name="KeDA Test">
+            <menuitem id="keda_menu_main" name="Master" sequence="1"/>
+        </menuitem>
+
+        <record id="material_form_view" model="ir.ui.view">
+            <field name="name">Material</field>
+            <field name="model">material</field>
+            <field name="arch" type="xml">
+                <form string="Form Material">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/> 
+                                <field name="name"/> 
+                                <field name="type"/> 
+                            </group>
+                            <group>
+                                <field name="buy_price"/>
+                                <field name="partner_id" string="Supplier" context="{'res_partner_search_mode': 'supplier'}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="material_search_view" model="ir.ui.view">
+            <field name="name">material.search</field>
+            <field name="model">material</field>
+            <field name="arch" type="xml">
+                <search string="Material">
+                    <field name="name" string="Name" filter_domain="[('name', 'ilike', self)]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Name" name="group_name" context="{'group_by':'name'}"/>
+                        <filter string="Type" name="group_type" context="{'group_by':'type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="material_tree_view">
+            <field name="name">Material</field>
+            <field name="model">material</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="buy_price"/>
+                    <field name="partner_id" string="Supplier"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="material_action" model="ir.actions.act_window">
+            <field name="name">Material</field>
+            <field name="res_model">material</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain"></field>
+            <field name="context"></field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No material found. Let's create one!
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="material_menu" name="Material" parent="keda_menu_main" action="material_action" sequence="1"/>
+        <menuitem id="supplier_menu" name="Supplier" parent="keda_menu_main" action="account.res_partner_action_supplier" sequence="2"/>
+
+</odoo>
